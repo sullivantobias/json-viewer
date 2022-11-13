@@ -1,17 +1,29 @@
-import JsonInput from "react-json-editor-ajrm";
-import locale from "react-json-editor-ajrm/locale/en";
+import { useRef, useState } from "react";
+
+import "./index.scss";
 
 const JSONInput = ({ json, onChange }) => {
+  const textareaRef = useRef(null);
+  const lineNumbersRef = useRef(null);
+
+  const [numberOfLines, setNumberOfLines] = useState(0);
+
+  const setLines = () =>
+    setNumberOfLines(textareaRef.current.value.split(/\r\n|\r|\n/).length);
+
   return (
-    <JsonInput
-      id={1}
-      reset
-      onChange={onChange}
-      placeholder={json}
-      locale={locale}
-      height="550px"
-      width="100%"
-    />
+    <div className="JSONInput">
+      <div ref={lineNumbersRef} className="JSONInput__lineNumbers">
+        {Array.from(Array(numberOfLines), (e, i) => (
+          <span key={i}></span>
+        ))}
+      </div>
+      <textarea
+        onChange={() => onChange(textareaRef.current.value)}
+        onKeyUp={setLines}
+        ref={textareaRef}
+      ></textarea>
+    </div>
   );
 };
 

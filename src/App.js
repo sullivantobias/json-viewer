@@ -4,16 +4,22 @@ import JSONFormatter from "./Components/Organisms/JSONFormatter";
 import JSONInput from "./Components/Organisms/JSONInput";
 
 const App = () => {
-  const [json, setJson] = useState({ test: "test" });
+  const [json, setJson] = useState("");
 
-  const handleChange = () => {
-    console.log("Changing");
+  const handleChange = (value) => {
+    try {
+      JSON.parse(value);
+    } catch (e) {
+      return;
+    }
+
+    setJson(JSON.parse(value));
   };
 
   return (
     <div className="App">
       Init JSON Viewer
-      <JSONInput json={json} onChange={handleChange} />
+      <JSONInput json={json} onChange={(value) => handleChange(value)} />
       {json ? <JSONFormatter theme="solarized" json={json} /> : null}
     </div>
   );
