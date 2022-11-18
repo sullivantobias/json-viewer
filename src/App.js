@@ -2,11 +2,20 @@ import { useState } from "react";
 
 import JSONFormatter from "./Components/Organisms/JSONFormatter";
 import JSONInput from "./Components/Organisms/JSONInput";
+import Container from "./Components/Structure/Container";
+
+import "./App.scss";
 
 const App = () => {
   const [json, setJson] = useState("");
 
-  const handleChange = (value) => {
+  const handleChange = (isFormatter, value) => {
+    if (isFormatter) {
+      setJson(value);
+
+      return;
+    }
+
     try {
       JSON.parse(value);
     } catch (e) {
@@ -18,9 +27,20 @@ const App = () => {
 
   return (
     <div className="App">
-      Init JSON Viewer
-      <JSONInput json={json} onChange={(value) => handleChange(value)} />
-      {json ? <JSONFormatter theme="solarized" json={json} /> : null}
+      <Container>
+        <JSONInput
+          json={json}
+          onChange={(value) => handleChange(false, value)}
+        />
+      </Container>
+      <Container>
+        {json ? (
+          <JSONFormatter
+            onEdit={(value) => handleChange(true, value)}
+            json={json}
+          />
+        ) : null}
+      </Container>
     </div>
   );
 };

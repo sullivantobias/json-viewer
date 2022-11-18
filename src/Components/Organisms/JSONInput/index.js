@@ -1,30 +1,18 @@
-import { useRef, useState } from "react";
+import Editor from "@monaco-editor/react";
 
 import "./index.scss";
 
-const JSONInput = ({ json, onChange }) => {
-  const textareaRef = useRef(null);
-  const lineNumbersRef = useRef(null);
-
-  const [numberOfLines, setNumberOfLines] = useState(0);
-
-  const setLines = () =>
-    setNumberOfLines(textareaRef.current.value.split(/\r\n|\r|\n/).length);
-
-  return (
-    <div className="JSONInput">
-      <div ref={lineNumbersRef} className="JSONInput__lineNumbers">
-        {Array.from(Array(numberOfLines), (e, i) => (
-          <span key={i}></span>
-        ))}
-      </div>
-      <textarea
-        onChange={() => onChange(textareaRef.current.value)}
-        onKeyUp={setLines}
-        ref={textareaRef}
-      ></textarea>
-    </div>
-  );
-};
+const JSONInput = ({ json, onChange }) => (
+  <div className="JSONInput">
+    <Editor
+      theme="vs-dark"
+      onChange={onChange}
+      height="100vh"
+      defaultLanguage="json"
+      options={{ formatOnPaste: true, formatOnType: true }}
+      value={JSON.stringify(json)}
+    />
+  </div>
+);
 
 export default JSONInput;
