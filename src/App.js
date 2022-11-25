@@ -36,7 +36,7 @@ const App = () => {
       <Container>
         {json ? (
           <JSONFormatter
-            onEdit={(value) => handleChange(true, value)}
+            onChange={(value) => handleChange(true, value)}
             json={json}
           />
         ) : null}

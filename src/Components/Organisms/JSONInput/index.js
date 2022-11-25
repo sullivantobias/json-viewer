@@ -7,7 +7,6 @@ const JSONInput = ({ json, onChange }) => (
     <Editor
       theme="vs-dark"
       onChange={onChange}
-      height="100vh"
       defaultLanguage="json"
       options={{ formatOnPaste: true, formatOnType: true }}
       value={JSON.stringify(json)}
